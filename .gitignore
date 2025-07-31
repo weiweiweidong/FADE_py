@@ -205,3 +205,8 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# 忽略 .vscode 文件夹（任何位置）
+.vscode/
+# 忽略 .DS_Store 文件（任何位置）
+.DS_Store
