@@ -5,12 +5,22 @@
 
 import sys
 import argparse
-from utils.pprint import pprint
+from PIL import Image
+import matplotlib.pyplot as plt
+import os
+
+from core.FADE import FADE
+
+os.environ["PYTHONWARNINGS"] = "ignore"
+
+CONST = {"image_path": "data/test_image2.JPG"}
 
 
 def main():
     """主函数"""
-    pprint("hell")
+    image = Image.open(CONST["image_path"])
+
+    FADE("dong")
 
 
 if __name__ == "__main__":
