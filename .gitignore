@@ -205,3 +205,21 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# Local AI/tooling state
+.codex/
+
+# Local scratch notebook
+test.ipynb
+
+# Optional large local artifacts (uncomment if you don't want to version them)
+# reference/FADE_py-main.zip
+# test_image1.png
+# test_image2.JPG
+# test_image3.jpg
+
+
+
+.claude/
+.codex/
+reference/FADE_py-main.zip
