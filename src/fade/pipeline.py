@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import warnings
 from dataclasses import dataclass
 from typing import Sequence, Tuple
 
@@ -76,13 +77,19 @@ class FadePipeline:
 
         mu_diff_free = mu_free[np.newaxis, :] - feat
         dist_free = batch_mahalanobis(mu_diff_free, patch_var, cov_free)
-        Df = np.nanmean(dist_free)
         Df_map = dist_free.reshape(context.patch_row_num, context.patch_col_num)
 
         mu_diff_foggy = mu_foggy[np.newaxis, :] - feat
         dist_foggy = batch_mahalanobis(mu_diff_foggy, patch_var, cov_foggy)
-        Dff = np.nanmean(dist_foggy)
         Dff_map = dist_foggy.reshape(context.patch_row_num, context.patch_col_num)
+
+        # nanmean may receive an all-NaN slice for degenerate inputs (e.g. uniform
+        # images where every patch produces NaN features). Suppress the resulting
+        # "Mean of empty slice" RuntimeWarning — NaN is the correct result in that case.
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", RuntimeWarning)
+            Df = np.nanmean(dist_free)
+            Dff = np.nanmean(dist_foggy)
 
         score = Df / (Dff + 1.0)
         D_map = Df_map / (Dff_map + 1.0)
